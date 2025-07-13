@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ランチBot</title>
+</head>
+
+<body>
+    <h2>今日のランチどうする？🍚</h2>
+    <form method="post">
+        <input name="message" placeholder="今日はがっつりいきたい…" size="40">
+        <button type="submit">相談する</button>
+    </form>
+    {% if response %}
+    <div>
+        <h3>おすすめランチ🍽️</h3>
+        <p>{{ response }}</p>
+    </div>
+    {% endif %}
+</body>
+
+</html>

@@ -1,22 +1,55 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
     <title>ランチBot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
 </head>
-
 <body>
-    <h2>今日のランチどうする？🍚</h2>
-    <form method="post">
-        <input name="message" placeholder="今日はがっつりいきたい…" size="40">
-        <button type="submit">相談する</button>
-    </form>
-    {% if response %}
-    <div>
-        <h3>おすすめランチ🍽️</h3>
-        <p>{{ response }}</p>
-    </div>
-    {% endif %}
-</body>
+    <div class="chat-container">
+        <h2>今日のランチどうする？🍚</h2>
+        <form method="post" id="lunch-form">
+            <input type="text" name="message" placeholder="海鮮の気分！ 揚げ物が良い！ etc…">
+            <button type="submit">相談する</button>
+        </form>
 
+        <!-- ローディング表示 -->
+        <div id="loading" class="loading-container">
+            <div class="bowl">
+                <div class="rice"></div>
+                <div class="rice"></div>
+                <div class="rice"></div>
+            </div>
+            <p>ランチを考え中…</p>
+        </div>
+
+        {% if response %}
+            <div class="card-container">
+                {% for suggestion in response.suggestions %}
+                <div class="card">
+                    {% if suggestion.photo_url %}
+                        <img src="{{ suggestion.photo_url }}" alt="{{ suggestion.shop }}" class="card-image">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/noimage.png') }}" alt="No Image" class="card-image">
+                    {% endif %}
+                    <div class="card-content">
+                        <h3>{{ suggestion.shop }}</h3>
+                        <p><strong>所要時間:</strong> {{ suggestion.time }}</p>
+                        <p><strong>おすすめメニュー:</strong> {{ suggestion.menu }}</p>
+                        <p><strong>値段:</strong> {{ suggestion.price }}</p>
+                        <p><a href="{{ suggestion.link }}" target="_blank">情報源リンク</a></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // フォーム送信時にローディングを表示
+        document.getElementById("lunch-form").addEventListener("submit", function() {
+            document.getElementById("loading").style.display = "block";
+        });
+    </script>
+</body>
 </html>

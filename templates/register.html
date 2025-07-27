@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ランチ登録フォーム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>🍽 行ったお店を登録しよう！</h2>
+
+        {% if success %}
+            <p class="success">登録完了したよ〜！ありがとう🥰</p>
+        {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="post">
+            <label>
+                店名
+                <input type="text" name="shop" placeholder="例: ふくや" required>
+            </label>
+            <label>
+                メニュー
+                <input type="text" name="menu" placeholder="例: 天丼" required>
+            </label>
+            <label>
+                価格
+                <input type="text" name="price" placeholder="例: 900円" required>
+            </label>
+            <label>
+                雰囲気
+                <input type="text" name="mood" placeholder="例: 落ち着いて話せる" required>
+            </label>
+            <label>
+                感想
+                <textarea name="comment" placeholder="感想を自由に書いてね…" required></textarea>
+            </label>
+            <button type="submit">登録する</button>
+        </form>
+    </div>
+</body>
+</html>

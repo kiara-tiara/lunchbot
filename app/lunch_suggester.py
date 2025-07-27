@@ -110,6 +110,7 @@ def generate_lunch_suggestions(user_message):
     - おすすめメニュー
     - おすすめメニューの値段（例：1200円）
     - 情報源リンク（Googleマップや食べログなど）
+    - リンクは Markdown を禁止。URL をそのまま出力（例: https://...）だけ
 
     出力は、以下の形式を**厳密に守って3件分**記載してください：
 
@@ -118,21 +119,21 @@ def generate_lunch_suggestions(user_message):
     所要時間：約〇〇分
     おすすめメニュー：〇〇
     値段：〇〇円
-    リンク：URL
+    URL
 
     2.
     - 店名：〇〇
     所要時間：約〇〇分
     おすすめメニュー：〇〇
     値段：〇〇円
-    リンク：URL
+    URL
 
     3.
     - 店名：〇〇
     所要時間：約〇〇分
     おすすめメニュー：〇〇
     値段：〇〇円
-    リンク：URL
+    URL
     """
 
     res = openai.ChatCompletion.create(

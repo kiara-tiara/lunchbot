@@ -22,17 +22,20 @@ def generate_keywords(menu):
 
 
 def get_sheet():
-    # Render の環境変数から JSON を取得
     creds_json = os.getenv("GOOGLE_CREDENTIALS")
-
     if not creds_json:
         raise ValueError("GOOGLE_CREDENTIALS が環境変数に設定されていません。")
 
-    # 改行コードを戻す
+    # デバッグ: 先頭100文字だけ表示
+    print("DEBUG RAW:", creds_json[:100])
+
+    # 改行コードを復元
     creds_json = creds_json.replace("\\n", "\n")
     creds_dict = json.loads(creds_json)
 
-    # 認証情報を作成
+    # private_keyを確認
+    print("DEBUG PRIVATE KEY:", creds_dict["private_key"][:50])
+
     scope = [
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive",

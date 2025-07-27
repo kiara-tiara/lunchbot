@@ -1,4 +1,5 @@
 import os
+import base64
 import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -22,19 +23,12 @@ def generate_keywords(menu):
 
 
 def get_sheet():
-    creds_json = os.getenv("GOOGLE_CREDENTIALS")
-    if not creds_json:
-        raise ValueError("GOOGLE_CREDENTIALS が環境変数に設定されていません。")
+    creds_b64 = os.getenv("GOOGLE_CREDENTIALS_B64")
+    if not creds_b64:
+        raise ValueError("GOOGLE_CREDENTIALS_B64 が未設定だよ！")
 
-    # デバッグ: 先頭100文字だけ表示
-    print("DEBUG RAW:", creds_json[:100])
-
-    # 改行コードを復元
-    creds_json = creds_json.replace("\\n", "\n")
+    creds_json = base64.b64decode(creds_b64).decode("utf-8")
     creds_dict = json.loads(creds_json)
-
-    # private_keyを確認
-    print("DEBUG PRIVATE KEY:", creds_dict["private_key"][:50])
 
     scope = [
         "https://spreadsheets.google.com/feeds",
@@ -42,8 +36,7 @@ def get_sheet():
     ]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     client = gspread.authorize(creds)
-    sheet = client.open(SHEET_NAME).sheet1
-    return sheet
+    return client.open(SHEET_NAME).sheet1
 
 
 def append_feedback(shop, menu, price, mood, comment):

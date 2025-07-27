@@ -22,15 +22,22 @@ def generate_keywords(menu):
 
 
 def get_sheet():
+    # Render の環境変数から JSON を取得
+    creds_json = os.getenv("GOOGLE_CREDENTIALS")
+
+    if not creds_json:
+        raise ValueError("GOOGLE_CREDENTIALS が環境変数に設定されていません。")
+
+    # 改行コードを戻す
+    creds_json = creds_json.replace("\\n", "\n")
+    creds_dict = json.loads(creds_json)
+
+    # 認証情報を作成
     scope = [
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive",
     ]
-
-    # 環境変数から JSON 認証情報を読み込む
-    google_creds = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
-
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(google_creds, scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     client = gspread.authorize(creds)
     sheet = client.open(SHEET_NAME).sheet1
     return sheet

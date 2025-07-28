@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ランチBot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
 </head>
 <body>
     <div class="chat-container">
+
+        <div class="nav-button-container">
+            <a href="/register" class="nav-button">行ったお店を登録する ✍️</a>
+        </div>
+
         <h2>今日のランチどうする？🍚</h2>
         <form method="post" id="lunch-form">
             <input type="text" name="message" placeholder="海鮮の気分！ 揚げ物が良い！ etc…">
